@@ -24,7 +24,7 @@ class CountdownTimer extends Component {
     const timeFormat="MM DD YYYY, h:mm a"
     var timeTillDate = moment.unix(this.props.EpochStartTime)
     // now lets make it UTC and add 24 hours. 
-    timeTillDate = moment.utc(timeTillDate,timeFormat).add(55,'minutes')
+    timeTillDate = moment.utc(timeTillDate,timeFormat).add(1,'day')
    
    console.log(timeTillDate)
     var now = moment.utc(new Date(), timeFormat)
@@ -108,15 +108,18 @@ class CountdownTimer extends Component {
                     {hours}
                     <TimeUnit>hours</TimeUnit>
                   </CountdownItem>
-            
-              
+                    <Separator>
+                        :
+                    </Separator>
+                   
                   <CountdownItem>
                     
                     {minutes}
                     <TimeUnit>minutes</TimeUnit>
                   </CountdownItem>
-                
-                
+                  <Separator>
+                        :
+                    </Separator>
                   <CountdownItem>
                   
                     {seconds}
@@ -212,9 +215,10 @@ const CountdownItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  align-content:space-around;
   flex-direction: column;
   line-height: 1em;
-  margin: 2px;
+  margin: 0px 2px;
   padding-top: 10px;
   position: relative;
   width: 40px;
@@ -239,6 +243,13 @@ const LoadingText = styled.p`
 visibility:hidden;
 
 `
+const Separator = styled.p`
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1em;
+
+
+
+`
 const TimeUnit = styled.span`
   color: #333;
   font-size: 6pt;
@@ -254,7 +265,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   height: 50px;
   &.fadeIn{
-    animation: ${FadeIn} 0.45s;
+    animation: ${FadeIn} 0.25s;
   }
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 `
