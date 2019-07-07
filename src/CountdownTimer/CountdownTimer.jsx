@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import moment from "moment"
-import styled from "styled-components"
+import styled, {keyframes} from "styled-components"
 /*
     Display a timer countdown. It requires however Moment.js to use. At the end of the countdown 
     it fires a function. 
@@ -22,16 +22,19 @@ class CountdownTimer extends Component {
   }
   componentDidMount() {
     const timeFormat="MM DD YYYY, h:mm a"
-    const timeTillDate = moment.unix(this.props.EpochStartTime).format(timeFormat)
-    
-    
-    var now = moment(new Date(), timeFormat)
-    const then = moment(timeTillDate, timeFormat)
+    var timeTillDate = moment.unix(this.props.EpochStartTime)
+    // now lets make it UTC and add 24 hours. 
+    timeTillDate = moment.utc(timeTillDate,timeFormat).add(55,'minutes')
+   
+   console.log(timeTillDate)
+    var now = moment.utc(new Date(), timeFormat)
+    console.log("now",now)
+    const then = timeTillDate
     if(then.diff(now, "seconds")>0){
         this.interval = setInterval(() => {
           
            
-             now = moment(new Date(), timeFormat)
+             now = moment.utc(new Date(), timeFormat)
            
             // const dateDiff = b.diff(a, 'days');
       
@@ -95,34 +98,48 @@ class CountdownTimer extends Component {
     const secondsRadius = mapNumber(seconds, 60, 0, 0, 360)
    
     try {
-      return (
-        <Wrapper>
-          <CountDownWrapper>
-            {hours && (
-              <CountdownItem>
+      return (hours>0||minutes>0||seconds>0)? 
+        (
+            <Wrapper className="fadeIn">
+             
+              <CountDownWrapper>
+                  <CountdownItem>
+                  
+                    {hours}
+                    <TimeUnit>hours</TimeUnit>
+                  </CountdownItem>
+            
               
-                {hours}
-                <TimeUnit>hours</TimeUnit>
-              </CountdownItem>
-            )}
-            {minutes && (
-              <CountdownItem>
+                  <CountdownItem>
+                    
+                    {minutes}
+                    <TimeUnit>minutes</TimeUnit>
+                  </CountdownItem>
                 
-                {minutes}
-                <TimeUnit>minutes</TimeUnit>
-              </CountdownItem>
-            )}
-            {seconds && (
-              <CountdownItem>
-              
-                {seconds}
-                <TimeUnit>seconds</TimeUnit>
-              </CountdownItem>
-            )}
-          </CountDownWrapper>
-        </Wrapper>
-      )
-    } catch (e) {
+                
+                  <CountdownItem>
+                  
+                    {seconds}
+                    <TimeUnit>seconds</TimeUnit>
+                  </CountdownItem>
+                
+              </CountDownWrapper>
+            </Wrapper>
+          ): hours!==undefined ? 
+            (<Wrapper>
+              <CountDownWrapper>
+                <ExpiredText>
+                    Expired
+                </ExpiredText>
+              </CountDownWrapper>
+          </Wrapper>) : <Wrapper>
+          <CountDownWrapper>
+              <LoadingText>Loading...</LoadingText>
+              </CountDownWrapper>
+          </Wrapper>
+          
+        }   
+          catch (e) {
       if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
         console.log(e)
       }
@@ -180,6 +197,15 @@ function mapNumber(number, in_min, in_max, out_min, out_max) {
 }
 
 // Here is our CSS / Styled Components
+const FadeIn = keyframes`
+from{
+    opacity:0;
+}
+to{
+    opacity:1;
+}
+`
+
 const CountdownItem = styled.div`
   color: #111;
   font-size: 20pt;
@@ -199,8 +225,20 @@ const CountDownWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 `
+const ExpiredText = styled.span`
+ color: #333;
+  font-size: 16pt;
+  font-weight: 400;
+  text-transform: uppercase;
+font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 
+`
+const LoadingText = styled.p`
+visibility:hidden;
+
+`
 const TimeUnit = styled.span`
   color: #333;
   font-size: 6pt;
@@ -214,6 +252,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin: 0;
   box-sizing: border-box;
+  height: 50px;
+  &.fadeIn{
+    animation: ${FadeIn} 0.45s;
+  }
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 `
 
