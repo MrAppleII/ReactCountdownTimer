@@ -233,13 +233,15 @@ const ExpiredText = styled.span`
   font-size: 16pt;
   font-weight: 400;
   text-transform: uppercase;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system, -apple-system, BlinkMacSystemFont,
+      "Helvetica Neue", "Lucida Grande";
 `
 const LoadingText = styled.p`
   visibility: hidden;
 `
 const Separator = styled.p`
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system, -apple-system, BlinkMacSystemFont,
+      "Helvetica Neue", "Lucida Grande";
   line-height: 1em;
 `
 const TimeUnit = styled.span`
@@ -259,7 +261,8 @@ const Wrapper = styled.div`
   &.fadeIn {
     animation: ${FadeIn} 0.25s;
   }
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system, -apple-system, BlinkMacSystemFont,
+      "Helvetica Neue", "Lucida Grande";
 `
 
 const CountDownSVG = styled.svg`
