@@ -25,13 +25,13 @@ class CountdownTimer extends Component {
     try {
       if (this.props.EpochStartTime !== -1) {
         const timeFormat = "MM DD YYYY, h:mm a"
-        var timeTillDate = moment.unix(this.props.EpochStartTime)
+        var timeTillDate = moment(this.props.EpochStartTime)
         // now lets make it UTC and add 24 hours.
         timeTillDate = moment.utc(timeTillDate, timeFormat).add(1, "day")
 
-        console.log(timeTillDate)
+        //console.log("End Date", timeTillDate)
         var now = moment.utc(new Date(), timeFormat)
-        console.log("now", now)
+        //console.log("now", now)
         const then = timeTillDate
         if (then.diff(now, "seconds") > 0) {
           this.interval = setInterval(() => {
@@ -43,7 +43,8 @@ class CountdownTimer extends Component {
             // Set the days
             const days = then.diff(now, "days")
 
-            const hours = moment.duration(then.diff(now)).hours()
+            // const hours = moment.duration(then.diff(now)).hours()
+            const hours = then.diff(now, "hours")
             const minutes = moment.duration(then.diff(now)).minutes()
             const seconds = countdown.format("ss")
             // console.log("diff", moment.duration(then.diff(now)))
@@ -233,15 +234,15 @@ const ExpiredText = styled.span`
   font-size: 16pt;
   font-weight: 400;
   text-transform: uppercase;
-  font-family: system, -apple-system, BlinkMacSystemFont,
-      "Helvetica Neue", "Lucida Grande";
+  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Lucida Grande";
 `
 const LoadingText = styled.p`
   visibility: hidden;
 `
 const Separator = styled.p`
-  font-family: system, -apple-system, BlinkMacSystemFont,
-      "Helvetica Neue", "Lucida Grande";
+  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Lucida Grande";
   line-height: 1em;
 `
 const TimeUnit = styled.span`
@@ -261,8 +262,8 @@ const Wrapper = styled.div`
   &.fadeIn {
     animation: ${FadeIn} 0.25s;
   }
-  font-family: system, -apple-system, BlinkMacSystemFont,
-      "Helvetica Neue", "Lucida Grande";
+  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Lucida Grande";
 `
 
 const CountDownSVG = styled.svg`
